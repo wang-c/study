@@ -1,5 +1,7 @@
 package com.tjp.algorithms.sort;
 
+import com.tjp.structure.BinaryHeap;
+
 /**
  * 选择排序{
  * 简单选择排序,
@@ -86,12 +88,23 @@ public class SelecSort {
         simpleSelectSort(arr, n + 1);
     }
 
+    /**
+     * 堆排
+     *
+     * @param arr
+     */
+    public static void heapSelectSort(Integer arr[]) {
+        BinaryHeap<Integer> heap = new BinaryHeap(arr);
+//        heap.heapSort(arr);
+    }
+
 
     public static void main(String[] args) {
-        int arr[] = {49, 38, 65, 97, 76, 13, 27, 49, 78, 34, 12, 64, 5, 4, 62, 99, 98, 54, 56, 17, 18, 23, 34, 15, 35, 25, 53, 51};
+        Integer arr[] = {49, 38, 65, 97, 76, 13, 27, 49, 78, 34, 12, 64, 5, 4, 62, 99, 98, 54, 56, 17, 18, 23, 34, 15, 35, 25, 53, 51};
 //        simpleSelectSort(arr);
-        simpleSelectSort(arr, 0);
-        for (int e : arr) {
+//        simpleSelectSort(arr, 0);
+        heapSelectSort(arr);
+        for (Integer e : arr) {
             System.out.println(e);
         }
 

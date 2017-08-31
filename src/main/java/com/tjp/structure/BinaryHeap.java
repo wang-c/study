@@ -18,6 +18,24 @@ public class BinaryHeap<E extends Comparable> implements Serializable {
     public BinaryHeap(E[] value) {
         this.value = value;
         this.size = value.length;
+        //创建堆
+        createHeap(value);
+
+    }
+
+    /**
+     * 创建堆
+     * 从最后一个非叶子节点向前。向下堆化
+     *
+     * @param value
+     */
+    private void createHeap(E[] value) {
+        if (size == 0) {
+            return;
+        }
+        for (int i = lastNoLeaf(); i >= 0; i--) {
+            siftDown(i, value[i]);
+        }
     }
 
     public E[] getValue() {
@@ -32,7 +50,7 @@ public class BinaryHeap<E extends Comparable> implements Serializable {
      */
     private void siftDown(int k, E x) {
         //在非页节点之间循环loop
-        while (k < lastNoLeaf()) {
+        while (k <= lastNoLeaf()) {
             //假定左孩子最小 找出child中最小的值
             int least = lchild(k);//child中最小下标
             E c = value[least];//child中最小值
@@ -107,18 +125,23 @@ public class BinaryHeap<E extends Comparable> implements Serializable {
      * @return
      */
     private int lastNoLeaf() {
-        return size >>> 1;
+        //注意加减优先级高于位运算（这里位运算要加括号）
+        return (size >>> 1) - 1;
     }
 
 
     public static void main(String[] args) {
-        Integer[] arr = new Integer[]{10, 8, 2, 11, 12, 9, 8};
+        Integer[] arr = new Integer[]{10, 8, 2, 11, 12, 7, 8};
+        //构建二叉堆
         BinaryHeap<Integer> binaryHeap = new BinaryHeap(arr);
 
-        binaryHeap.siftDown(0, 10);
         for (Integer e : binaryHeap.getValue()) {
             System.out.println(e);
         }
+
+        System.out.println((4 >>> 1) - 1);
+        System.out.println(4 >>> 1 - 1);
+
 
     }
 

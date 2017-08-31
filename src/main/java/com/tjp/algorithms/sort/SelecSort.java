@@ -89,13 +89,25 @@ public class SelecSort {
     }
 
     /**
-     * 堆排
+     * 堆排:
+     * (1)先创建堆(堆根节点最小)
+     * (2)不停的构建堆 选择最小的值出来(第1小,第2小,第3小。。。。)
+     * <p/>
+     *
+     * 时间复杂度:
+     * 最好:O(n*logn)
+     * 最坏:O(n*logn)
+     * 平均:O(n*logn)
+     * <p/>
+     * 空间复杂度:O(1)
+     * <p/>
+     * 稳定性:不稳定
      *
      * @param arr
      */
     public static void heapSelectSort(Integer arr[]) {
         BinaryHeap<Integer> heap = new BinaryHeap(arr);
-//        heap.heapSort(arr);
+        heap.heapSort(arr);
     }
 
 

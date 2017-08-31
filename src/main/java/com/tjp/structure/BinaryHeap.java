@@ -28,10 +28,11 @@ public class BinaryHeap<E extends Comparable> implements Serializable {
     private int size = 0;
 
     public BinaryHeap(E[] value) {
-        this.value = value;
+        //copy 数组
+        this.value = Arrays.copyOf(value, value.length);
         this.size = value.length;
         //创建堆
-        createHeap(value);
+        createHeap();
 
     }
 
@@ -139,11 +140,9 @@ public class BinaryHeap<E extends Comparable> implements Serializable {
      * 从最后一个非叶子节点向前。向下堆化
      * <p/>
      * 时间复杂度:
-     * n*logn
-     *
-     * @param value
+     * O(n*logn)
      */
-    private void createHeap(E[] value) {
+    private void createHeap() {
         if (size == 0) {
             return;
         }
@@ -156,11 +155,10 @@ public class BinaryHeap<E extends Comparable> implements Serializable {
     /**
      * 堆排序:
      * 先建堆-》堆排
-     * 时间复杂度:n*logn
+     * 时间复杂度:O(n*logn)
      */
-    public Object[] heapSort() {
+    public Object[] heapSort(Object[] sort) {
         int i, j;
-        Object[] sort = new Object[size];
         for (i = size - 1, j = 0; i > 0; i--, j++) {
             //将头节点用尾节点替换
             E moved = value[i];
@@ -281,8 +279,8 @@ public class BinaryHeap<E extends Comparable> implements Serializable {
         //删除元素
         binaryHeap.remove(6);
 
-        Object[] objects = binaryHeap.heapSort();
-        for (Object e : objects) {
+        binaryHeap.heapSort(arr);
+        for (Object e : arr) {
             System.out.println(e);
         }
 

@@ -3,9 +3,9 @@ package com.tjp.algorithms.sort;
 import com.tjp.structure.BinaryHeap;
 
 /**
- * 选择排序{
- * 简单选择排序,
- * 堆排序。
+ * 基于选择的排序算法{
+ *      简单选择排序,
+ *      堆排序。
  * }
  * <p/>
  * Created by tujinpeng on 2017/8/29.
@@ -13,7 +13,9 @@ import com.tjp.structure.BinaryHeap;
 public class SelecSort {
 
     /**
-     * 简单插入排序思想:
+     * 简单插入排序
+     * <p/>
+     * 思想:
      * 给定待排序序列A[ 1......n ] ，选择出第i小元素，并和A[i]交换，这就是一趟简单选择排序。
      * <p/>
      * 时间复杂度:

@@ -1,7 +1,7 @@
 package com.tjp.algorithms.sort;
 
 /**
- * 插入排序{
+ * 基于插入的排序算法{
  * 直接插入排序
  * 希尔排序(最小增量排序)
  * }
@@ -27,12 +27,14 @@ public class InsertSort {
      * 稳定性:稳定
      *
      * @param arr
+     * @param begin
+     * @param end
      */
-    public static void insertSort(int arr[]) {
+    public static void insertSort(int arr[], int begin, int end) {
         if (arr.length == 0) {
             return;
         }
-        for (int i = 1; i < arr.length; i++) {// 从第二个元素往后得到哨兵元素
+        for (int i = 1; i <= end; i++) {// 从第二个元素往后得到哨兵元素
             int tmp = arr[i];
             int j = i - 1;
             while (j >= 0 && arr[j] > tmp) {
@@ -92,8 +94,8 @@ public class InsertSort {
 
     public static void main(String[] args) {
         int arr[] = {49, 38, 65, 97, 76, 13, 27, 49, 78, 34, 12, 64, 5, 4, 62, 99, 98, 54, 56, 17, 18, 23, 34, 15, 35, 25, 53, 51};
-//        insertSort(arr);
-        shellSort(arr);
+        insertSort(arr, 0, arr.length - 1);
+//        shellSort(arr);
         for (int e : arr) {
             System.out.println(e);
         }

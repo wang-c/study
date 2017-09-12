@@ -3,7 +3,7 @@ package com.tjp.algorithms.sort;
 /**
  * 基于交换的排序算法{
  * 冒泡排序
- * 快速排序
+ * 快速排序(待优化)
  * }
  * <p/>
  * Created by tujinpeng on 2017/9/6.

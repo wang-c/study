@@ -9,6 +9,7 @@ public class CollectionTest {
     public static void main(String[] args) {
         // LinkedHashMap不仅仅是一个hashmap,还要维护一个双向的循环链表
         Map cache = new LinkedHashMap<Object, Object>(16, 0.75f, true) {
+            //当要删除最近最少使用的元素,即要删除链表头部元素
             @Override
             protected boolean removeEldestEntry(Map.Entry<Object, Object> eldest) {
                 return size() > 5;

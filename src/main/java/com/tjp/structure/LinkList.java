@@ -18,6 +18,31 @@ public class LinkList {
     public LinkList() {
     }
 
+    public Node getHead() {
+        return head;
+    }
+
+    public void setHead(Node head) {
+        this.head = head;
+    }
+
+    public Node getTail() {
+        return tail;
+    }
+
+    public void setTail(Node tail) {
+        this.tail = tail;
+    }
+
+    /**
+     * 链表为空
+     *
+     * @return
+     */
+    public boolean isEmpty() {
+        return head == null;
+    }
+
     /**
      * 添加新节点
      *
@@ -33,6 +58,26 @@ public class LinkList {
             //链表的尾部节点next指向新节点
             tail.next = node;
             //设置新的tail节点为当前节点
+            tail = node;
+        }
+        //链表大小+1
+        size++;
+    }
+
+    /**
+     * 添加新节点
+     *
+     * @param node
+     */
+    public void add(Node node) {
+        if (node == null) {
+            return;
+        }
+        if (head == null) {
+            head = node;
+            tail = head;
+        } else {
+            tail.next = node;
             tail = node;
         }
         //链表大小+1
@@ -97,14 +142,14 @@ public class LinkList {
         return sb.toString();
     }
 
-    class Node {
-        private Object data;
+    class Node<E> {
+        private E data;
         private Node next;
 
         public Node() {
         }
 
-        public Node(Object data) {
+        public Node(E data) {
             this.data = data;
         }
 
@@ -119,7 +164,7 @@ public class LinkList {
 
     /**
      * 前提:不知道链表长度,不允许遍历链表的长度
-     * 求链表倒数第k个节点
+     * 求链表倒数第k个节点(快慢指针)
      *
      * @param k
      * @return
@@ -131,7 +176,7 @@ public class LinkList {
         Node first = head;
         Node second = head;
         //1.先让second向前跑k-1个位置,使之间隔k-1
-        for (int i = 0; i < k; k++) {
+        for (int i = 0; i < k; i++) {
             second = second.next;
             if (second == null) {
                 //k超过了链表长度,直接返回null
@@ -147,27 +192,130 @@ public class LinkList {
         return first;
     }
 
+    /**
+     * 查找链表中间节点
+     *
+     * @return
+     */
+    public Node findMidNode() {
+        if (head == null) {
+            return null;
+        }
+        Node first = head;
+        Node second = head;
+        //1.两个下标同时跑,first下标每次移动一位,second下标每次移动两位
+        while (second != null && second.next != null) {
+            first = first.next;
+            second = second.next.next;
+        }
+        //2.直到second下标到末尾时,此时first节点就是中间位置
+        return first;
+    }
+
+    /**
+     * 合并两个有序的单链表，合并之后的链表依然有序：
+     * 链表1：
+     * 　　1->2->3->4
+     * 链表2：
+     * 　　2->3->4->5
+     * 合并后：
+     * 　　1->2->2->3->3->4->4->5
+     * 解题思路：
+     * 　　挨着比较链表1和链表2。
+     * 　　这个类似于归并排序。尤其要注意两个链表都为空、和其中一个为空的情况。只需要O (1) 的空间。时间复杂度为O (max(len1,len2))
+     *
+     * @return
+     */
+    public static LinkList mergeSortLink(LinkList list1, LinkList list2) {
+        if (list1 == null || list1.isEmpty()) {
+            return list2;
+        }
+        if (list2 == null || list2.isEmpty()) {
+            return list1;
+        }
+        LinkList newList = new LinkList();
+        Node head1 = list1.getHead();
+        Node head2 = list2.getHead();
+        //不停的遍历比较出两个链表最小的节点,有序加入新链表中
+        while (head1 != null && head2 != null) {//有一个链表为空,结束遍历
+            Object min = null;
+            if (((Comparable) head1.data).compareTo(head2.data) <= 0) {
+                min = head1.data;
+                head1 = head1.next;//比较小的链表head指针向前推进
+            } else {
+                min = head2.data;
+                head2 = head2.next;//比较小的链表head指针向前推进
+            }
+            //将每次比较出来最小的节点加入到新节点中
+            newList.add(min);
+        }
+        //合并剩余的元素
+        while (head1 != null) {//head1有剩余
+            newList.add(head1.data);
+            head1 = head1.next;
+        }
+        while (head2 != null) {//head2有剩余
+            newList.add(head2.data);
+            head2 = head2.next;
+        }
+        return newList;
+    }
+
+    /**
+     * 单链表的反转
+     *
+     * @return
+     */
+    public static LinkList reverseList() {
+        return null;
+    }
+
+    /**
+     * 从头到尾打印链表
+     */
+    public static void reversePrint() {
+
+    }
+
+    //判断链表是否有环
+    //链表环长度
+    //链表环的起始点
+
 
     public static void main(String[] args) {
-        LinkList linkList = new LinkList();
-        linkList.add(1);
-        linkList.add(2);
-        linkList.add(3);
-        linkList.add(4);
-        linkList.add(5);
-        linkList.add(6);
-        linkList.add(7);
+        LinkList list1 = new LinkList();
+        list1.add(1);
+        list1.add(2);
+        list1.add(3);
+        list1.add(4);
+        list1.add(5);
+        list1.add(6);
+        list1.add(7);
 
         //删头部
-        linkList.remove(1);
+        list1.remove(1);
         //删尾部
-        linkList.remove(7);
-        linkList.remove(3);
+        list1.remove(7);
 
         //求倒数第2个节点
-        Node lastNode = linkList.findLastNode(2);
+        Node lastNode = list1.findLastNode(2);
         System.out.println("last 2 node:" + lastNode);
-        System.out.println(linkList);
+        //求中间节点
+        Node midNode = list1.findMidNode();
+        System.out.println("mid node:" + midNode);
+        System.out.println("list1:" + list1);
+
+        //求合并两个有序列表,组成新的有序列表
+        LinkList list2 = new LinkList();
+        list2.add(3);
+        list2.add(4);
+        list2.add(8);
+        list2.add(9);
+        list2.add(10);
+        System.out.println("list2:" + list2);
+        LinkList mergeList = LinkList.mergeSortLink(list1, list2);
+        System.out.println("merge sort list:" + mergeList);
+
     }
 
 

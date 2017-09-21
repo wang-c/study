@@ -124,7 +124,7 @@ public class LinkList {
     public void remove(Object data) {
         Node curr = head;
         Node previous = head;
-        //遍历链表,找出要删除的节点以及他的前驱节点
+        //1.遍历链表,找出要删除的节点以及他的前驱节点
         while (curr != null) {
             if (curr.data.equals(data))
                 break;
@@ -140,8 +140,9 @@ public class LinkList {
         //若删除的是尾节点,则重置tail为原tail的上一个节点
         if (curr == tail)
             tail = previous;
+        //2.让删除节点的上一个节点next指向删除节点的next
         previous.next = curr.next;
-        //删除节点设为null 让gc回收
+        //3.删除节点设为null 让gc回收
         curr = null;
         //删除一个节点,链表大小-1
         size--;

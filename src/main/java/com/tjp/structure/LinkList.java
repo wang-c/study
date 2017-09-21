@@ -1,5 +1,7 @@
 package com.tjp.structure;
 
+import java.util.Stack;
+
 /**
  * 单链表学习
  * Created by tujinpeng on 2017/9/18.
@@ -44,14 +46,44 @@ public class LinkList {
     }
 
     /**
-     * 添加新节点
+     * 添加新节点(默认添加到末尾)
      *
      * @param data
      */
     public void add(Object data) {
+        linkLast(data);
+    }
+
+    /**
+     * 添加新节点到链表头部(FILO 栈)
+     *
+     * @param data
+     */
+    public void linkFirst(Object data) {
         Node node = new Node(data);
         //链表为空,直接赋值给头节点
-        if (head == null) {
+        if (isEmpty()) {
+            head = node;
+            tail = head;
+        } else {//链表不为空,添加节点到head节点前面
+            //新节点next指向head及诶单
+            node.next = head;
+            //设置新的head节点为当前节点
+            head = node;
+        }
+        //链表大小+1
+        size++;
+    }
+
+    /**
+     * 添加新节点到链表尾部(FIFO 队列)
+     *
+     * @param data
+     */
+    public void linkLast(Object data) {
+        Node node = new Node(data);
+        //链表为空,直接赋值给头节点
+        if (isEmpty()) {
             head = node;
             tail = head;
         } else {//链表不为空,添加节点到tail节点后面
@@ -266,14 +298,38 @@ public class LinkList {
      *
      * @return
      */
-    public static LinkList reverseList() {
-        return null;
+    public static LinkList reverseList(LinkList linkList) {
+        if (linkList.isEmpty()) {
+            return null;
+        }
+        //1.新建一个链表
+        LinkList reverseLink = new LinkList();
+        //2.不停的遍历旧的链表,将数据加入到新链表头部(倒序)
+        Node head = linkList.getHead();
+        while (head != null) {
+            reverseLink.linkFirst(head.data);
+            head = head.next;
+        }
+        return reverseLink;
     }
 
     /**
      * 从头到尾打印链表
      */
-    public static void reversePrint() {
+    public static void reversePrint(LinkList linkList) {
+        if (linkList.isEmpty()) {
+            return;
+        }
+        Node head = linkList.getHead();
+        Stack stack = new Stack();
+        while (head != null) {
+            stack.push(head.data);
+            head = head.next;
+        }
+
+        while (stack.size() > 0) {
+            System.out.println(stack.pop());
+        }
 
     }
 
@@ -315,6 +371,11 @@ public class LinkList {
         System.out.println("list2:" + list2);
         LinkList mergeList = LinkList.mergeSortLink(list1, list2);
         System.out.println("merge sort list:" + mergeList);
+
+        // 链表反转
+        LinkList reverseList = LinkList.reverseList(list1);
+        System.out.println("reverseList : " + reverseList);
+        LinkList.reversePrint(reverseList);
 
     }
 

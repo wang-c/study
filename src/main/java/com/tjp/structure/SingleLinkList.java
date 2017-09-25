@@ -6,7 +6,7 @@ import java.util.Stack;
  * 单链表学习
  * Created by tujinpeng on 2017/9/18.
  */
-public class LinkList {
+public class SingleLinkList {
 
     //链表头节点 遍历链表的开始
     private Node head;
@@ -17,7 +17,7 @@ public class LinkList {
     //链表大小
     private int size;
 
-    public LinkList() {
+    public SingleLinkList() {
     }
 
     public Node getHead() {
@@ -259,14 +259,14 @@ public class LinkList {
      *
      * @return
      */
-    public static LinkList mergeSortLink(LinkList list1, LinkList list2) {
+    public static SingleLinkList mergeSortLink(SingleLinkList list1, SingleLinkList list2) {
         if (list1 == null || list1.isEmpty()) {
             return list2;
         }
         if (list2 == null || list2.isEmpty()) {
             return list1;
         }
-        LinkList newList = new LinkList();
+        SingleLinkList newList = new SingleLinkList();
         Node head1 = list1.getHead();
         Node head2 = list2.getHead();
         //不停的遍历比较出两个链表最小的节点,有序加入新链表中
@@ -299,12 +299,12 @@ public class LinkList {
      *
      * @return
      */
-    public static LinkList reverseList(LinkList linkList) {
+    public static SingleLinkList reverseList(SingleLinkList linkList) {
         if (linkList.isEmpty()) {
             return null;
         }
         //1.新建一个链表
-        LinkList reverseLink = new LinkList();
+        SingleLinkList reverseLink = new SingleLinkList();
         //2.不停的遍历旧的链表,将数据加入到新链表头部(倒序)
         Node head = linkList.getHead();
         while (head != null) {
@@ -317,7 +317,7 @@ public class LinkList {
     /**
      * 从头到尾打印链表
      */
-    public static void reversePrint(LinkList linkList) {
+    public static void reversePrint(SingleLinkList linkList) {
         if (linkList.isEmpty()) {
             return;
         }
@@ -340,7 +340,7 @@ public class LinkList {
 
 
     public static void main(String[] args) {
-        LinkList list1 = new LinkList();
+        SingleLinkList list1 = new SingleLinkList();
         list1.add(1);
         list1.add(2);
         list1.add(3);
@@ -363,20 +363,20 @@ public class LinkList {
         System.out.println("list1:" + list1);
 
         //求合并两个有序列表,组成新的有序列表
-        LinkList list2 = new LinkList();
+        SingleLinkList list2 = new SingleLinkList();
         list2.add(3);
         list2.add(4);
         list2.add(8);
         list2.add(9);
         list2.add(10);
         System.out.println("list2:" + list2);
-        LinkList mergeList = LinkList.mergeSortLink(list1, list2);
+        SingleLinkList mergeList = SingleLinkList.mergeSortLink(list1, list2);
         System.out.println("merge sort list:" + mergeList);
 
         // 链表反转
-        LinkList reverseList = LinkList.reverseList(list1);
+        SingleLinkList reverseList = SingleLinkList.reverseList(list1);
         System.out.println("reverseList : " + reverseList);
-        LinkList.reversePrint(reverseList);
+        SingleLinkList.reversePrint(reverseList);
 
     }
 

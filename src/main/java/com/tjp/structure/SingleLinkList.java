@@ -175,7 +175,7 @@ public class SingleLinkList {
         return sb.toString();
     }
 
-    class Node<E> {
+    private class Node<E> {
         private E data;
         private Node next;
 

@@ -6,7 +6,7 @@ import java.util.Stack;
  * 单链表学习
  * Created by tujinpeng on 2017/9/18.
  */
-public class SingleLinkList {
+public class SingleLinkList<E> implements LinkList<E>{
 
     //链表头节点 遍历链表的开始
     private Node head;
@@ -24,76 +24,9 @@ public class SingleLinkList {
         return head;
     }
 
-    public void setHead(Node head) {
-        this.head = head;
-    }
-
-    public Node getTail() {
-        return tail;
-    }
-
-    public void setTail(Node tail) {
-        this.tail = tail;
-    }
-
-    /**
-     * 链表为空
-     *
-     * @return
-     */
-    public boolean isEmpty() {
-        return head == null;
-    }
-
-    /**
-     * 添加新节点(默认添加到末尾)
-     *
-     * @param data
-     */
+    @Override
     public void add(Object data) {
         linkLast(data);
-    }
-
-    /**
-     * 添加新节点到链表头部(FILO 栈)
-     *
-     * @param data
-     */
-    public void linkFirst(Object data) {
-        Node node = new Node(data);
-        //链表为空,直接赋值给头节点
-        if (isEmpty()) {
-            head = node;
-            tail = head;
-        } else {//链表不为空,添加节点到head节点前面
-            //新节点next指向head及诶单
-            node.next = head;
-            //设置新的head节点为当前节点
-            head = node;
-        }
-        //链表大小+1
-        size++;
-    }
-
-    /**
-     * 添加新节点到链表尾部(FIFO 队列)
-     *
-     * @param data
-     */
-    public void linkLast(Object data) {
-        Node node = new Node(data);
-        //链表为空,直接赋值给头节点
-        if (isEmpty()) {
-            head = node;
-            tail = head;
-        } else {//链表不为空,添加节点到tail节点后面
-            //链表的尾部节点next指向新节点
-            tail.next = node;
-            //设置新的tail节点为当前节点
-            tail = node;
-        }
-        //链表大小+1
-        size++;
     }
 
     /**
@@ -116,11 +49,22 @@ public class SingleLinkList {
         size++;
     }
 
-    /**
-     * 删除数据为data的节点
-     *
-     * @param data
-     */
+    @Override
+    public void addFirst(E data) {
+        linkFirst(data);
+    }
+
+    @Override
+    public void remove() {
+
+    }
+
+    @Override
+    public void removeLast() {
+
+    }
+
+    @Override
     public void remove(Object data) {
         Node curr = head;
         Node previous = head;
@@ -150,12 +94,60 @@ public class SingleLinkList {
     }
 
     /**
-     * 获取链表长度
+     * 链表为空
      *
      * @return
      */
+    @Override
+    public boolean isEmpty() {
+        return head == null;
+    }
+
+    @Override
     public int size() {
         return size;
+    }
+
+    /**
+     * 添加新节点到链表头部(FILO 栈)
+     *
+     * @param data
+     */
+    private void linkFirst(Object data) {
+        Node node = new Node(data);
+        //链表为空,直接赋值给头节点
+        if (isEmpty()) {
+            head = node;
+            tail = head;
+        } else {//链表不为空,添加节点到head节点前面
+            //新节点next指向head及诶单
+            node.next = head;
+            //设置新的head节点为当前节点
+            head = node;
+        }
+        //链表大小+1
+        size++;
+    }
+
+    /**
+     * 添加新节点到链表尾部(FIFO 队列)
+     *
+     * @param data
+     */
+    private void linkLast(Object data) {
+        Node node = new Node(data);
+        //链表为空,直接赋值给头节点
+        if (isEmpty()) {
+            head = node;
+            tail = head;
+        } else {//链表不为空,添加节点到tail节点后面
+            //链表的尾部节点next指向新节点
+            tail.next = node;
+            //设置新的tail节点为当前节点
+            tail = node;
+        }
+        //链表大小+1
+        size++;
     }
 
     @Override
@@ -175,7 +167,7 @@ public class SingleLinkList {
         return sb.toString();
     }
 
-    private class Node<E> {
+    private static class Node<E> {
         private E data;
         private Node next;
 

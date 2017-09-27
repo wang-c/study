@@ -1,4 +1,4 @@
-package com.tjp.structure;
+package com.tjp.structure.heap;
 
 import java.io.Serializable;
 import java.util.Arrays;

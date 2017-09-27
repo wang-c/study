@@ -1,4 +1,4 @@
-package com.tjp.structure;
+package com.tjp.structure.stack;
 
 import java.util.ArrayList;
 import java.util.EmptyStackException;

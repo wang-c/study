@@ -1,6 +1,6 @@
 package com.tjp.algorithms.sort;
 
-import com.tjp.structure.BinaryHeap;
+import com.tjp.structure.heap.BinaryHeap;
 
 /**
  * 基于选择的排序算法{

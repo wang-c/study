@@ -1,4 +1,7 @@
-package com.tjp.structure;
+package com.tjp.structure.stack;
+
+import com.tjp.structure.base.LinkList;
+import com.tjp.structure.base.SingleLinkList;
 
 /**
  * 链表实现的栈(LIFO) 一端进出是栈

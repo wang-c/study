@@ -1,4 +1,4 @@
-package com.tjp.structure;
+package com.tjp.structure.base;
 
 /**
  * 链表基本操作

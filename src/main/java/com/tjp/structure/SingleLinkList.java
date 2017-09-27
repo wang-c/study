@@ -20,6 +20,14 @@ public class SingleLinkList<E> implements LinkList<E>{
     public SingleLinkList() {
     }
 
+    @Override
+    public E getFirst() {
+        if(isEmpty()){
+            return null;
+        }
+        return head.data;
+    }
+
     public Node getHead() {
         return head;
     }
@@ -194,7 +202,7 @@ public class SingleLinkList<E> implements LinkList<E>{
         } else if (curr == tail) {
             //若删除的是尾节点,则重置tail节点为tail上一个节点
             tail = prev;
-            prev.next=null;//尾节点所有的引用设置成空
+            prev.next=null;//尾节点所有的引用设置成空(help gc)
         } else {
             //若删除的事中间节点,则当前节点的prev一个节点next指向当前节点的next
             prev.next = curr.next;

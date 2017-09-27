@@ -19,6 +19,14 @@ public class DoubleCircleLinkList<E> implements LinkList<E>{
         head.next = head.prev = head;
     }
 
+    @Override
+    public E getFirst() {
+        if(isEmpty()){
+            return null;
+        }
+        return head.next.data;
+    }
+
     /**
      * 添加新节点(默认添加到末尾)
      *
@@ -210,9 +218,9 @@ public class DoubleCircleLinkList<E> implements LinkList<E>{
     private class Node<E> {
         private E data;
         //前一个节点引用
-        private Node prev;
+        private Node<E> prev;
         //后一个节点引用
-        private Node next;
+        private Node<E> next;
 
         public Node(Node prev, E data, Node next) {
             this.prev = prev;

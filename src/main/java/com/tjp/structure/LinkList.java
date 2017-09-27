@@ -6,6 +6,9 @@ package com.tjp.structure;
  */
 public interface LinkList<E> {
 
+
+    E getFirst();
+
     /**
      * 向链表添加元素(默认添加到尾部)
      * @param data

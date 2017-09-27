@@ -39,20 +39,31 @@ public class DoubleCircleLinkList<E> implements LinkList<E>{
         linkFirst(data);
     }
 
+    @Override
+    public void addLast(E data) {
+        linkLast(data);
+    }
+
+
     /**
      * 删除链表第一个节点(head.next)
      */
     @Override
-    public void remove(){
-        unLinkFirst();
+    public E remove(){
+        return unLinkFirst();
+    }
+
+    @Override
+    public E removeFirst() {
+        return unLinkFirst();
     }
 
     /**
      * 删除链表第一个节点(head.next)
      */
     @Override
-    public void removeLast(){
-        unLinkLast();
+    public E removeLast(){
+        return unLinkLast();
     }
 
 
@@ -137,14 +148,11 @@ public class DoubleCircleLinkList<E> implements LinkList<E>{
      * head⇄first(x)⇄node2⇄head.prev(链表尾部)
      * @return
      */
-    private void unLinkFirst() {
-        if (isEmpty()) {
-            return;
-        }
+    private E unLinkFirst() {
         //获取链表第一个节点
         Node first = head.next;
         //删除first节点
-        unLink(first);
+        return unLink(first);
 
     }
 
@@ -153,14 +161,11 @@ public class DoubleCircleLinkList<E> implements LinkList<E>{
      * head⇄first⇄node2⇄node3⇄node4⇄last(x)
      * @return
      */
-    private void unLinkLast() {
-        if (isEmpty()) {
-            return;
-        }
+    private E unLinkLast() {
         //获取链表最后一个节点
         Node last = head.prev;
         //删除Last节点
-        unLink(last);
+        return unLink(last);
     }
 
     /**
@@ -168,13 +173,18 @@ public class DoubleCircleLinkList<E> implements LinkList<E>{
      * head⇄first⇄node2⇄node3(x)⇄node4⇄last
      * @param node
      */
-    private void unLink(Node<E> node) {
+    private E unLink(Node<E> node) {
+        if (isEmpty()) {
+            return null;
+        }
+        E data=node.data;
         //node节点的prev节点next->node节点的next
         node.prev.next = node.next;
         //node节点的next节点的prev->node节点的prev节点
         node.next.prev = node.prev;
         node=null;
         size--;
+        return data;
     }
 
     @Override

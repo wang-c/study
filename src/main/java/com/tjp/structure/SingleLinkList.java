@@ -9,10 +9,10 @@ import java.util.Stack;
 public class SingleLinkList<E> implements LinkList<E>{
 
     //链表头节点 遍历链表的开始
-    private Node head;
+    private Node<E> head;
 
     //链表头尾部点 链表插入的开始
-    private Node tail;
+    private Node<E> tail;
 
     //链表大小
     private int size;
@@ -55,13 +55,23 @@ public class SingleLinkList<E> implements LinkList<E>{
     }
 
     @Override
-    public void remove() {
-
+    public void addLast(E data) {
+        linkLast(data);
     }
 
     @Override
-    public void removeLast() {
+    public E remove() {
+        return unLinkeFirst();
+    }
 
+    @Override
+    public E removeFirst() {
+        return unLinkeFirst();
+    }
+
+    @Override
+    public E removeLast() {
+        return unLinkeLast();
     }
 
     @Override
@@ -75,22 +85,7 @@ public class SingleLinkList<E> implements LinkList<E>{
             previous = curr;
             curr = curr.next;
         }
-        //若没有这样的节点
-        if (curr == null)
-            return;
-        //若删除的是头节点,则重置head为原head的下一个节点
-        if (curr == head)
-            head = head.next;
-        //若删除的是尾节点,则重置tail为原tail的上一个节点
-        if (curr == tail)
-            tail = previous;
-        //2.让删除节点的上一个节点next指向删除节点的next
-        previous.next = curr.next;
-        //3.删除节点设为null 让gc回收
-        curr = null;
-        //删除一个节点,链表大小-1
-        size--;
-
+        unlink(previous,curr);
     }
 
     /**
@@ -149,6 +144,68 @@ public class SingleLinkList<E> implements LinkList<E>{
         //链表大小+1
         size++;
     }
+
+    /**
+     * 删除链表头节点
+     * @return
+     */
+    private E unLinkeFirst() {
+        if (isEmpty()) {
+            return null;
+        }
+        E data = head.data;
+        unlink(null,head);
+        return data;
+    }
+
+    /**
+     * 删除链表尾节点
+     * @return
+     */
+    private E unLinkeLast(){
+        if(isEmpty()){
+            return null;
+        }
+        E data=tail.data;
+        Node curr=head;
+        Node prev=head;
+        //遍历链表 找到tail节点的上一个节点
+        while (curr != tail) {
+            prev = curr;
+            curr = curr.next;
+        }
+        //删除尾节点
+        unlink(prev,tail);
+        return data;
+    }
+
+    /**
+     * 删除指定节点
+     * @param prev
+     * @param curr
+     */
+    private void unlink(Node prev, Node curr) {
+        if(curr==null){
+            return;
+        }
+        if (curr == head) {
+            //若删除的是头节点,则重置head为原head的下一个节点
+            head = head.next;
+        } else if (curr == tail) {
+            //若删除的是尾节点,则重置tail节点为tail上一个节点
+            tail = prev;
+            prev.next=null;//尾节点所有的引用设置成空
+        } else {
+            //若删除的事中间节点,则当前节点的prev一个节点next指向当前节点的next
+            prev.next = curr.next;
+        }
+        //删除当前节点
+        curr = null;
+        //链表大小建议
+        size--;
+    }
+
+
 
     @Override
     public String toString() {
@@ -332,6 +389,7 @@ public class SingleLinkList<E> implements LinkList<E>{
 
 
     public static void main(String[] args) {
+
         SingleLinkList list1 = new SingleLinkList();
         list1.add(1);
         list1.add(2);
@@ -342,9 +400,20 @@ public class SingleLinkList<E> implements LinkList<E>{
         list1.add(7);
 
         //删头部
-        list1.remove(1);
+//        list1.remove(1);
+        Object head = list1.removeFirst();
+        System.out.println("remove  head:" + head);
+
+
         //删尾部
-        list1.remove(7);
+//        list1.remove(7);
+        Object last = list1.removeLast();
+        System.out.println("remove last:" + last);
+
+        System.out.println("remove head and last , list1 :" + list1);
+
+
+
 
         //求倒数第2个节点
         Node lastNode = list1.findLastNode(2);

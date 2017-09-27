@@ -19,14 +19,25 @@ public interface LinkList<E> {
     void addFirst(E data);
 
     /**
+     * 向链表添加元素到尾部
+     * @param data
+     */
+    void addLast(E data);
+
+    /**
      * 删除链表头部节点
      */
-    void remove();
+    E remove();
+
+    /**
+     * 删除链表头部节点
+     */
+    E removeFirst();
 
     /**
      * 删除链表尾部节点
      */
-    void removeLast();
+    E removeLast();
 
 
     /**

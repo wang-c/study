@@ -10,7 +10,7 @@ import java.util.TreeMap;
  * 有序的map
  * Created by tujinpeng on 2017/10/11.
  */
-public class TreeMapTest {
+public class TreeMapExample {
 
     public static void main(String[] args) {
         Map<String, Object> treeMap = new TreeMap<String, Object>();

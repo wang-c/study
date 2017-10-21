@@ -1,7 +1,5 @@
 package com.tjp.lang;
 
-import sun.dc.pr.PRError;
-
 /**
  * Created by TJP on 2017/10/21.
  */
@@ -43,6 +41,11 @@ public class StringStudy {
         String newStr = new String("abc");
         System.out.println(newStr.intern() == str1);//--true
 
+        /*
+         * stringBulider.toString创建的实例在java堆上,不在字符串常量池中
+         */
+        String javaStr = new StringBuilder().append("ja").append("va").toString();
+        System.out.println("stringBulider.toString == string.intern result : " + (javaStr.intern() == javaStr));
 
         /*
          *当用动态字符串当lock对象时,相同的字符串对象调用intern方法作为lock对象
@@ -56,7 +59,7 @@ public class StringStudy {
         System.out.println(lock1.intern() == lock2.intern());//--true
 
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             Thread t = new Thread(new Runnable() {
                 public void run() {
                     addUnSafe(1111L);

@@ -19,6 +19,34 @@ public class JavaTest {
 
     }
 
+    @Test
+    public void testReference1() {
+        Long p = 1L;
+        Long newP = p;
+        System.out.println("p:" + p + " , new P :" + newP);
+
+        p++;
+        System.out.println("p:" + p + " , new P :" + newP);
+
+    }
+
+    @Test
+    public void testReference2() {
+        Long currentPage = 100l;
+        int i = 0;
+        do {
+            i++;
+        } while (currentPage++ < 100l + 20l - 1l);
+
+        System.out.println(currentPage);
+        System.out.println(i);
+
+        Long curr = 119l;
+        System.out.println(++curr < 20+100);
+        System.out.println(curr);
+
+    }
+
     /**
      * 对象作为方法参数，实际上是copy的引用
      *

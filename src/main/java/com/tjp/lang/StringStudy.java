@@ -22,13 +22,13 @@ public class StringStudy {
 
         String str4 = "bc";
         /*
-         *2.字符串赋值方式2：赋值时包含有变量的（编译器没法确定的），不会进入常量池，而是new一个新的String对象
+         *2.字符串赋值方式2：赋值时包含有变量的（编译器没法确定的），不会进入常量池，实例在java堆上
          */
         String str5 = "a" + str4;
         System.out.println(str1 == str5);//--false
 
         /*
-         * 字符串赋值方式3：new String对象这种赋值，不会进入常量池
+         * 字符串赋值方式3：new String对象这种赋值，不会进入常量池 实例分配在java堆上
          */
         String newString = new String("abc");
         System.out.println(str1 == newString);//--false,常量池中引用str1和newString不是同一个内存地址

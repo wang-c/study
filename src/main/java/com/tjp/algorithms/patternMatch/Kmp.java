@@ -3,7 +3,7 @@ package com.tjp.algorithms.patternMatch;
 /**
  * Created by tujinpeng on 2017/10/20.
  */
-public class KMP {
+public class Kmp {
 
 
     /**

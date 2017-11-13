@@ -8,17 +8,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by tujinpeng on 2017/3/26.
  */
-public class BlockingQueueTest {
+public class LinkedBlockingQueueExample {
 
     public static void main(String[] args) {
         //申明一个容量为10的阻塞队列
-        BlockingQueue<String> queue=new LinkedBlockingQueue<String>(10);
+        BlockingQueue<String> queue = new LinkedBlockingQueue<String>(10);
 
         //启动3个生产者 1个消费者 操作queue
-        Thread product1=new Thread(new Producter(queue),"product-thread-01");
-        Thread product2=new Thread(new Producter(queue),"product-thread-02");
-        Thread product3=new Thread(new Producter(queue),"product-thread-03");
-        Thread consumer1=new Thread(new Consumer(queue),"consumer-thread-01");
+        Thread product1 = new Thread(new Producter(queue), "product-thread-01");
+        Thread product2 = new Thread(new Producter(queue), "product-thread-02");
+        Thread product3 = new Thread(new Producter(queue), "product-thread-03");
+        Thread consumer1 = new Thread(new Consumer(queue), "consumer-thread-01");
         product1.start();
         product2.start();
         product3.start();
@@ -51,8 +51,8 @@ public class BlockingQueueTest {
                 while (true) {
                     data = "data-" + count.incrementAndGet();
                     System.out.println("入队元素" + data);
-                    if(!queue.offer(data, 2, TimeUnit.SECONDS)){
-                        System.out.println("入队失败,元素" + data );
+                    if (!queue.offer(data, 2, TimeUnit.SECONDS)) {
+                        System.out.println("入队失败,元素" + data);
                     }
 
                     //没生产一个就睡眠1s
@@ -60,8 +60,8 @@ public class BlockingQueueTest {
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }finally {
-                System.out.println("生产者线程" + Thread.currentThread().getName()+"退出");
+            } finally {
+                System.out.println("生产者线程" + Thread.currentThread().getName() + "退出");
             }
 
         }
@@ -84,10 +84,10 @@ public class BlockingQueueTest {
             System.out.println("启动消费者线程" + Thread.currentThread().getName());
             try {
                 while (true) {
-                    String data = (String) queue.poll(2,TimeUnit.SECONDS);
-                    if(data!=null){
+                    String data = (String) queue.poll(2, TimeUnit.SECONDS);
+                    if (data != null) {
                         System.out.println("出队元素" + data);
-                    }else{
+                    } else {
                         System.out.println("出队元素" + data);
                     }
 
@@ -97,8 +97,8 @@ public class BlockingQueueTest {
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }finally {
-                System.out.println("消费者线程" + Thread.currentThread().getName()+"退出");
+            } finally {
+                System.out.println("消费者线程" + Thread.currentThread().getName() + "退出");
 
             }
 

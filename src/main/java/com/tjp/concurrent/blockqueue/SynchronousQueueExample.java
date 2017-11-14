@@ -7,7 +7,8 @@ import java.util.concurrent.SynchronousQueue;
  */
 public class SynchronousQueueExample {
 
-    private static SynchronousQueue queue = new SynchronousQueue();
+    private static boolean fair =false;
+    private static SynchronousQueue queue = new SynchronousQueue(fair);//公平-队列 非公平-栈
 
     public static void main(String[] args) {
         Thread producter = new Thread(new Producter(), "SynchronousQueue-product-thread-01");

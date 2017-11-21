@@ -1,7 +1,5 @@
 package com.tjp.concurrent.utils;
 
-import sun.jvm.hotspot.tools.SysPropsDumper;
-
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 

@@ -101,21 +101,4 @@ public class ThreadPoolExample {
             }
         }
     }
-
-    public static void main(String[] args) {
-        while (true) {
-            Throwable t = null;
-            try {
-                int a = 0;
-                Integer b = null;
-                System.out.println(a == b);
-            } catch (RuntimeException e) {
-                t = e;
-                throw e;
-            } finally {
-                System.out.println(t);
-            }
-        }
-    }
-
 }

@@ -14,6 +14,7 @@ public class ThreadPoolFinalExample {
         ThreadPoolExecutor pool = new ThreadPoolExecutor(1, 1, 5, TimeUnit.SECONDS, new SynchronousQueue());
         pool.execute(new Task());
 
+        //弱引用对象 跟踪引用对象是否被gc回收
         WeakReference<ThreadPoolExecutor> refernece = new WeakReference<ThreadPoolExecutor>(pool);
 
         /**
@@ -21,24 +22,24 @@ public class ThreadPoolFinalExample {
          * (1)线程池外部强引用为null
          * (2)内部工作者线程全部退出
          */
-        //外部引用设为null
-//        pool = null;
+        //设置外部引用设为null
+        pool = null;
         System.gc();
-        //此时线程池内部的工作者线程还持有pool reference
-        System.out.println("memory pool reference : " + refernece.get());
+        System.out.println("memory pool obj : " + refernece.get());//线程池只外部的强引用为null了，但是内部线程还持有引用,线程池对象不会被gc回收
 
         //终结线程池,让工作者线程完全退出
-        pool.shutdown();
-        try {
-            //等待工作者线程池完全终结,工作者线程全部退出
-            if (pool.awaitTermination(10, TimeUnit.SECONDS)) {
-                pool = null;
-                System.gc();
-                System.out.println("memory pool reference : " + refernece.get());
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        pool.shutdown();
+//        try {
+//            //等待工作者线程池完全终结,全部工作者线程退出
+//            if (pool.awaitTermination(10, TimeUnit.SECONDS)) {
+//                //外部强引用设为null
+//                pool = null;
+//                System.gc();
+//                System.out.println("memory pool obj : " + refernece.get());//线程池外部强引用为null了，内部子线程也退出了，此时会被gc回收
+//            }
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
     }
 

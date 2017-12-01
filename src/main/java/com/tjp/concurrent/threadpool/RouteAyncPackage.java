@@ -1,6 +1,7 @@
 package com.tjp.concurrent.threadpool;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -10,19 +11,19 @@ import java.util.concurrent.*;
 public class RouteAyncPackage {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        Long productId = 1000l;
+        Long productId = 6700L;
         ThreadPoolExecutor pool = new ThreadPoolExecutor(2, 2, 0, TimeUnit.MINUTES, new LinkedBlockingQueue<Runnable>(1), new NamedThreadFactory("tjp-pool", false), new AbortPolicyWithReport());
 
         //1.异步并行处理线路,酒店,门票的一次打包逻辑(每个品类分组之间进行组合)
-        Future hotel = pool.submit(new HotelPakgTask(productId));
-        Future ticket = pool.submit(new TicketPakgTask(productId));
-        Future route = pool.submit(new RoutePakgTask(productId));
+        Future hotelFuture = pool.submit(new HotelPakgTask(productId));
+        Future ticketFuture = pool.submit(new TicketPakgTask(productId));
+        Future routeFuture = pool.submit(new RoutePakgTask(productId));
 
         //2.等待所有的一次打包全部结束,执行线路二次打包逻辑(不同品类的组合进行二次组合)
-        if (hotel.get() != null && ticket.get() != null && route.get() != null) {
-            doSecondPackage(hotel.get(), ticket.get(), route.get());
-        }
-
+        List<Object> hotelFirstPages = (List<Object>) hotelFuture.get();
+        List<Object> ticketFirstPages = (List<Object>) ticketFuture.get();
+        List<Object> routeFirstPages = (List<Object>) routeFuture.get();
+        doSecondPackage(hotelFirstPages, ticketFirstPages, routeFirstPages);
 
     }
 

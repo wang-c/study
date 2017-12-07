@@ -160,7 +160,7 @@ public class DoubleCircleLinkList<E> implements LinkList<E>{
         //获取链表第一个节点
         Node first = head.next;
         //删除first节点
-        return unLink(first);
+        return (E) unLink(first);
 
     }
 
@@ -173,7 +173,7 @@ public class DoubleCircleLinkList<E> implements LinkList<E>{
         //获取链表最后一个节点
         Node last = head.prev;
         //删除Last节点
-        return unLink(last);
+        return (E) unLink(last);
     }
 
     /**

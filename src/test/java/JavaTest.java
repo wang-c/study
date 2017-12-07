@@ -4,6 +4,14 @@ import org.junit.Test;
  * Created by TJP on 2017/10/18.
  */
 public class JavaTest {
+    public static void main(String[] args) {
+
+    }
+
+    @sun.misc.Contended
+    static class AtomicLong {
+        private volatile long value;
+    }
 
     @Test
     public void testReference() {
@@ -42,7 +50,7 @@ public class JavaTest {
         System.out.println(i);
 
         Long curr = 119l;
-        System.out.println(++curr < 20+100);
+        System.out.println(++curr < 20 + 100);
         System.out.println(curr);
 
     }

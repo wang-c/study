@@ -25,6 +25,7 @@ public class SynchronousQueueExample {
      * -公平和非公平:
      *  栈实现(LIFO):新的请求线程优先和栈顶元素(最后进入queue的线程节点)匹配
      *  队列实现(FIFO):新的请求优先和队列头部元素(最早进入队列的线程节点)匹配
+     *  高并发场景,队列实现比栈实现有更高的吞吐量
      * @param args
      */
     public static void main(String[] args) {

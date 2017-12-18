@@ -8,10 +8,10 @@ public class JavaTest {
 
     }
 
-    @sun.misc.Contended
-    static class AtomicLong {
-        private volatile long value;
-    }
+//    @sun.misc.Contended
+//    static class AtomicLong {
+//        private volatile long value;
+//    }
 
     @Test
     public void testReference() {

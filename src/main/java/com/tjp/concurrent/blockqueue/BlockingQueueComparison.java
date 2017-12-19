@@ -65,7 +65,7 @@ public class BlockingQueueComparison {
 
         //等待所有消费者线程消费完所有任务
         for (int i = 0; i < THREAD_NUM; i++) {
-            completionService.take();//消费者线程执行完毕,会将结果future加入到ExecutorCompletionService的阻塞队列中
+            completionService.take();//消费者线程执行完毕,会将结果future有序地加入到ExecutorCompletionService的阻塞队列中
         }
 
         t = System.nanoTime() - t;

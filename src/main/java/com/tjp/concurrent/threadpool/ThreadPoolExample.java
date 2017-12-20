@@ -11,6 +11,17 @@ import java.util.concurrent.*;
  */
 public class ThreadPoolExample {
 
+    /**
+     * 定制的线程池：
+     * -核心线程数：2
+     * -最大线程数：2
+     * -线程空闲时间(最大线程)：0
+     * -任务队列：LinkedBlockingQueue(1)
+     * -ThreadFactory：  NamedThreadFactory
+     * -丢弃策略：AbortPolicyWithReport （dump堆栈）
+     *
+     * @throws InterruptedException
+     */
     @Test
     public void customizedPool() throws InterruptedException {
         //自定义的线程池
@@ -28,7 +39,37 @@ public class ThreadPoolExample {
 
     }
 
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
+    /**
+     * 向线程池提交任务的方式：
+     * 1.execute
+     * 2.submit
+     * 3。batch submit
+     * @throws InterruptedException
+     */
+    @Test
+    public void submitTaskWay() throws InterruptedException {
+        //自定义的线程池
+        ThreadPoolExecutor pool = new ThreadPoolExecutor(2, 2, 0, TimeUnit.MINUTES, new LinkedBlockingQueue<Runnable>(1), new NamedThreadFactory("tjp-pool", false), new AbortPolicyWithReport());
+
+        //线程池并发处理能力为3
+        pool.execute(new Task("task-1"));
+        Future<?> future = pool.submit(new CallableTask("task-1"));//提交一个有返回值的任务
+        pool.execute(new Task("task-2"));
+
+        //让主线程不要结束
+        Thread.sleep(20000);
+
+    }
+
+    /**
+     * 线程池的生命周期：
+     * -状态
+     * -终结
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    @Test
+    public  void lifeCyclePool() throws ExecutionException, InterruptedException {
         //定制一个核心线程和最大线程为2 任务队列大小为1的线程池(同一时间最多消费3个任务【两个核心线程 队列1个】)
         ThreadPoolExecutor pool = new ThreadPoolExecutor(2, 2, 0, TimeUnit.MINUTES, new LinkedBlockingQueue<Runnable>(1), new NamedThreadFactory("tjp-pool", false), new AbortPolicyWithReport());
         //两种方式提交任务

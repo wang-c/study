@@ -1,5 +1,7 @@
 package com.tjp.concurrent.threadpool;
 
+import org.junit.Test;
+
 import java.lang.ref.WeakReference;
 import java.util.concurrent.*;
 
@@ -8,6 +10,23 @@ import java.util.concurrent.*;
  * Created by TJP on 2017/4/3.
  */
 public class ThreadPoolExample {
+
+    @Test
+    public void customizedPool() throws InterruptedException {
+        //自定义的线程池
+        ThreadPoolExecutor pool = new ThreadPoolExecutor(2, 2, 0, TimeUnit.MINUTES, new LinkedBlockingQueue<Runnable>(1), new NamedThreadFactory("tjp-pool", false), new AbortPolicyWithReport());
+
+        //线程池并发处理能力为3
+        pool.execute(new Task("task-1"));
+        pool.execute(new Task("task-2"));
+        pool.execute(new Task("task-3"));
+        //模拟线程池耗尽 执行丢弃策略的场景
+//        pool.execute(new Task("task-4"));
+
+        //让主线程不要结束
+        Thread.sleep(20000);
+
+    }
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         //定制一个核心线程和最大线程为2 任务队列大小为1的线程池(同一时间最多消费3个任务【两个核心线程 队列1个】)

@@ -16,6 +16,10 @@ public class ProxyHandler implements InvocationHandler {
     }
 
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        //hander增强的只是接口方法,不适用于object对象的增强
+        if (method.getDeclaringClass() == Object.class) {
+            return method.invoke(this, args);
+        }
         System.out.println("---------------before-------------");
         Object obj = method.invoke(target, args);
         System.out.println("---------------end----------------");

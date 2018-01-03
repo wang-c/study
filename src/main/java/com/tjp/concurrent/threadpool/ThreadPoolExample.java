@@ -130,6 +130,53 @@ public class ThreadPoolExample {
     }
 
     /**
+     * 一个默认扩展的一个线程池
+     */
+    static class DefaultThreadPoolExecutor extends ThreadPoolExecutor {
+
+        public DefaultThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue, ThreadFactory threadFactory, RejectedExecutionHandler handler) {
+            super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
+        }
+
+        protected void terminated() {
+            System.out.println("---------------------------one thread pool is terminated----------------------------------");
+        }
+
+    }
+
+    @Test
+    public void lifeCyclePool() throws ExecutionException, InterruptedException {
+        //定制一个核心线程和最大线程为2 任务队列大小为1的线程池(同一时间最多消费3个任务【两个核心线程 队列1个】)
+        ThreadPoolExecutor pool = new DefaultThreadPoolExecutor(1, 1, 0, TimeUnit.MINUTES,
+                new LinkedBlockingQueue<Runnable>(10),
+                new NamedThreadFactory("tjp-pool", false),
+                new AbortPolicyWithReport());
+        System.out.println(String.format(" pool start , status:(isShutdown:%s, isTerminated:%s, isTerminating:%s)", pool.isShutdown(), pool.isTerminated(), pool.isTerminating()));
+        //提交任务
+        pool.execute(new Task("task-1"));
+        pool.execute(new Task("task-2"));
+        pool.execute(new Task("task-3"));
+        /*
+         * 终结线程池的两个方法：
+         *   (1)shutdown    :  不在接受新任务，会处理正在运行的任务和任务队列中堆积的任务【平滑】
+         *   (2)shutdownNow :  不在接受新任务，直接中断正在运行任务的线程，同时不在处理任务队列中的任务【暴力】
+         */
+//        pool.shutdown();
+        pool.shutdownNow();
+        System.out.println(String.format(" invoke shutdown , status:(isShutdown:%s, isTerminated:%s, isTerminating:%s)", pool.isShutdown(), pool.isTerminated(), pool.isTerminating()));
+
+
+//        pool.execute(new Task("task-3"));//模拟当线程池调用终结方法时，不在接受一个新的任务，新提交的任务直接执行丢弃策略
+
+        /*
+         *当所有工作者线程全部退出&调用terminated（）方法后，才意味着线程池最终的结束
+         */
+        if (pool.awaitTermination(100, TimeUnit.SECONDS)) {
+            System.out.println(String.format(" pool is terminated , status:(isShutdown:%s, isTerminated:%s, isTerminating:%s)", pool.isShutdown(), pool.isTerminated(), pool.isTerminating()));
+        }
+    }
+
+    /**
      * 线程池的生命周期：
      * -状态
      * -终结
@@ -138,7 +185,7 @@ public class ThreadPoolExample {
      * @throws InterruptedException
      */
     @Test
-    public void lifeCyclePool() throws ExecutionException, InterruptedException {
+    public void gcThreadPool() throws ExecutionException, InterruptedException {
         //定制一个核心线程和最大线程为2 任务队列大小为1的线程池(同一时间最多消费3个任务【两个核心线程 队列1个】)
         ThreadPoolExecutor pool = new ThreadPoolExecutor(2, 2, 0, TimeUnit.MINUTES, new LinkedBlockingQueue<Runnable>(1), new NamedThreadFactory("tjp-pool", false), new AbortPolicyWithReport());
         //两种方式提交任务
@@ -195,10 +242,10 @@ public class ThreadPoolExample {
             try {
                 //do somenthing
                 Thread.sleep(1000);//模拟大量很慢的任务
+                System.out.println(Thread.currentThread().getName() + " executed " + name);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println(Thread.currentThread().getName() + " executed " + name);
         }
     }
 

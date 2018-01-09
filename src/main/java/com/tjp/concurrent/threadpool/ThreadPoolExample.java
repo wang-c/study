@@ -4,13 +4,14 @@ import org.junit.Test;
 
 import java.lang.ref.WeakReference;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * java线程池核心类 ThreadPoolExecutor
  * Created by TJP on 2017/4/3.
  */
 public class ThreadPoolExample {
-
     /**
      * 定制的线程池：
      * -核心线程数：2
@@ -161,12 +162,12 @@ public class ThreadPoolExample {
          *   (1)shutdown    :  不在接受新任务，会处理正在运行的任务和任务队列中堆积的任务【平滑】
          *   (2)shutdownNow :  不在接受新任务，直接中断正在运行任务的线程，同时不在处理任务队列中的任务【暴力】
          */
-//        pool.shutdown();
-        pool.shutdownNow();
+        pool.shutdown();
+//        pool.shutdownNow();
         System.out.println(String.format(" invoke shutdown , status:(isShutdown:%s, isTerminated:%s, isTerminating:%s)", pool.isShutdown(), pool.isTerminated(), pool.isTerminating()));
 
 
-//        pool.execute(new Task("task-3"));//模拟当线程池调用终结方法时，不在接受一个新的任务，新提交的任务直接执行丢弃策略
+//        pool.execute(new Task("task-4"));//模拟当线程池调用终结方法时，不在接受一个新的任务，新提交的任务直接执行丢弃策略
 
         /*
          *当所有工作者线程全部退出&调用terminated（）方法后，才意味着线程池最终的结束

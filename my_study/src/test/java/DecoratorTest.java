@@ -1,4 +1,4 @@
-import com.tjp.design.decorator.*;
+import com.github.tjp.design.decorator.*;
 import org.junit.Test;
 
 /**

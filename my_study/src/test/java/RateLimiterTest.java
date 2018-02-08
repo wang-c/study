@@ -1,4 +1,4 @@
-import com.tjp.concurrent.limiter.RateLimiter;
+import com.github.tjp.concurrent.limiter.RateLimiter;
 import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;

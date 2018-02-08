@@ -1,4 +1,4 @@
-import com.tjp.framework.spring.aop.Bussiness;
+import com.github.tjp.framework.spring.aop.Bussiness;
 import org.junit.Test;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

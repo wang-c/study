@@ -1,7 +1,7 @@
-import com.tjp.design.proxy.ProxyHandler;
-import com.tjp.design.proxy.RealSubject;
-import com.tjp.design.proxy.Subject;
-import com.tjp.utils.ProxyGeneratorUtils;
+import com.github.tjp.design.proxy.ProxyHandler;
+import com.github.tjp.design.proxy.RealSubject;
+import com.github.tjp.design.proxy.Subject;
+import com.github.tjp.utils.ProxyGeneratorUtils;
 import org.junit.Test;
 
 import java.lang.reflect.Proxy;

@@ -1,5 +1,5 @@
-import com.tjp.algorithms.consitenthash.CacheNode;
-import com.tjp.algorithms.consitenthash.ConsistentHash;
+import com.github.tjp.algorithms.consitenthash.CacheNode;
+import com.github.tjp.algorithms.consitenthash.ConsistentHash;
 import org.junit.Test;
 
 import java.util.ArrayList;

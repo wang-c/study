@@ -8,7 +8,7 @@ public class JavaTest {
 
     }
 
-    @sun.misc.Contended
+//    @sun.misc.Contended
     static class AtomicLong {
         private volatile long value;
     }

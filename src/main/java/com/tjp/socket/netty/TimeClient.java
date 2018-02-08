@@ -2,6 +2,7 @@ package com.tjp.socket.netty;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -24,6 +25,7 @@ public class TimeClient {
             bootstrap.group(group)
                     .channel(NioSocketChannel.class)
                     .option(ChannelOption.TCP_NODELAY, Boolean.TRUE)
+                    .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
@@ -46,10 +48,13 @@ public class TimeClient {
 
         private final ByteBuf firstMessage;
 
+        byte[] _data = new byte[16 * 1024];
+
+
         public TimeClientHandler() {
-            byte[] req = "query time order".getBytes();
-            firstMessage = Unpooled.buffer(req.length);
-            firstMessage.writeBytes(req);
+//            byte[] req = "query time orderquery time orderquery time orderquery time orderquery time orderquery time order".getBytes();
+            firstMessage = Unpooled.buffer(_data.length);
+            firstMessage.writeBytes(_data);
         }
 
         @Override
@@ -60,10 +65,10 @@ public class TimeClient {
 
         @Override
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-            ByteBuf buf= (ByteBuf) msg;
-            byte[] rep=new byte[buf.readableBytes()];
+            ByteBuf buf = (ByteBuf) msg;
+            byte[] rep = new byte[buf.readableBytes()];
             buf.readBytes(rep);
-            String body=new String(rep,"UTF-8");
+            String body = new String(rep, "UTF-8");
             System.out.println("client recive msg , msg : " + body);
         }
 

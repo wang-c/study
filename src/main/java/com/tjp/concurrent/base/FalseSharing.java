@@ -1,6 +1,5 @@
 package com.tjp.concurrent.base;
 
-import sun.misc.Contended;
 
 /**
  * <pre>
@@ -118,7 +117,7 @@ public class FalseSharing {
     }
 
     //jdk1.8原生的注解支持缓存行填充
-    @Contended
+//    @Contended
     static class VolatileLongContended extends VolatileLong {
     }
 }

@@ -6,8 +6,6 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.ref.WeakReference;
 import java.util.concurrent.*;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * java线程池核心类 ThreadPoolExecutor

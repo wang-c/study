@@ -1,8 +1,8 @@
+import org.junit.Test;
 import com.tjp.design.chain.DefaultHandlerChain;
 import com.tjp.design.chain.HandlerA;
 import com.tjp.design.chain.HandlerB;
 import com.tjp.design.chain.HandlerChain;
-import org.junit.Test;
 
 /**
  * Created by tujinpeng on 2017/5/22.

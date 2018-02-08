@@ -2,6 +2,7 @@ package com.tjp.algorithms.consitenthash;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 /**
  * Created by tujinpeng on 2017/3/19.
  */

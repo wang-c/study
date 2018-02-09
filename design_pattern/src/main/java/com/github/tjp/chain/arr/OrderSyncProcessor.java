@@ -1,8 +1,8 @@
-package com.github.tjp.chain.biz;
+package com.github.tjp.chain.arr;
 
-import com.github.tjp.chain.OrderProcessor;
-import com.github.tjp.chain.OrderProcessorChain;
-import com.github.tjp.chain.OrderProcessorContext;
+import com.github.tjp.chain.dto.CreateOrderRequest;
+import com.github.tjp.chain.dto.CreateOrderResponse;
+import com.github.tjp.chain.dto.OrderContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,15 +18,15 @@ public class OrderSyncProcessor implements OrderProcessor<CreateOrderRequest, Cr
     private static final Logger logger = LoggerFactory.getLogger(OrderSyncProcessor.class);
 
     @Override
-    public void doProcess(OrderProcessorContext<CreateOrderRequest, CreateOrderResponse> orderContext, OrderProcessorChain chain) {
+    public void doProcessor(OrderContext<CreateOrderRequest, CreateOrderResponse> orderContext, OrderProcessorChain chain) {
         logger.info("sync order process ...");
 
         sync(orderContext);
         //调用下一个处理器
-        chain.doProcess(orderContext);
+        chain.doProcessor(orderContext);
     }
 
-    private void sync(OrderProcessorContext<CreateOrderRequest, CreateOrderResponse> orderContext) {
+    private void sync(OrderContext<CreateOrderRequest, CreateOrderResponse> orderContext) {
         //这里同步订单创建的信息F
     }
 

@@ -1,4 +1,4 @@
-package com.github.tjp.chain;
+package com.github.tjp.chain.arr;
 
 /**
  * 组装订单处理链的对象工厂:

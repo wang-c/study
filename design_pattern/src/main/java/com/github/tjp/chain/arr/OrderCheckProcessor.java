@@ -1,8 +1,9 @@
-package com.github.tjp.chain.biz;
+package com.github.tjp.chain.arr;
 
-import com.github.tjp.chain.OrderProcessor;
-import com.github.tjp.chain.OrderProcessorChain;
-import com.github.tjp.chain.OrderProcessorContext;
+import com.github.tjp.chain.dto.CreateOrderInfo;
+import com.github.tjp.chain.dto.CreateOrderRequest;
+import com.github.tjp.chain.dto.CreateOrderResponse;
+import com.github.tjp.chain.dto.OrderContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +19,7 @@ public class OrderCheckProcessor implements OrderProcessor<CreateOrderRequest, C
     private static final Logger logger = LoggerFactory.getLogger(OrderCheckProcessor.class);
 
     @Override
-    public void doProcess(OrderProcessorContext<CreateOrderRequest, CreateOrderResponse> orderContext, OrderProcessorChain chain) {
+    public void doProcessor(OrderContext<CreateOrderRequest, CreateOrderResponse> orderContext, OrderProcessorChain chain) {
         logger.info("check order process ...");
         CreateOrderRequest orderRequest = orderContext.getOrderRequest();
         CreateOrderInfo.OrderDistVo booker = orderRequest.getBooker();
@@ -27,6 +28,6 @@ public class OrderCheckProcessor implements OrderProcessor<CreateOrderRequest, C
             throw new IllegalStateException("booker must be not null");
         }
         //订单信息校验通过,执行下一个处理器
-        chain.doProcess(orderContext);
+        chain.doProcessor(orderContext);
     }
 }

@@ -1,8 +1,4 @@
-package com.github.tjp.chain.biz;
-
-import com.github.tjp.chain.OrderProcessorChain;
-import com.github.tjp.chain.OrderProcessorChainFactory;
-import com.github.tjp.chain.OrderProcessorChainImpl;
+package com.github.tjp.chain.arr;
 
 /**
  * 创建订单的chain工厂

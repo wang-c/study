@@ -1,12 +1,16 @@
-package com.github.tjp.chain;
+package com.github.tjp.chain.arr;
+
+import com.github.tjp.chain.dto.OrderContext;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 /**
- * 订单流程处理链实现
+ * 订单流程处理链实现:
+ * <p/>
+ * 基于数组的责任链,通过数组的方式组合一个个处理节点,用一个position方式标记执行到的位置,
+ * 通过调用doProcessor执行下一个节点
  *
  * @author tujinpeng
  * @version V1.0
@@ -19,17 +23,20 @@ public class OrderProcessorChainImpl implements OrderProcessorChain {
      */
     private List<OrderProcessor> processors = new ArrayList<>();
 
+    /**
+     * 标记处理链执行到的位置
+     */
     private Iterator<OrderProcessor> iterator;
 
     @Override
-    public void doProcess(OrderProcessorContext orderProcessorContext) {
+    public void doProcessor(OrderContext orderContext) {
         if (iterator == null) {
             iterator = processors.iterator();
         }
         //调用订单处理链的下一个节点
         if (iterator.hasNext()) {
             OrderProcessor next = iterator.next();
-            next.doProcess(orderProcessorContext, this);
+            next.doProcessor(orderContext, this);
         }
     }
 

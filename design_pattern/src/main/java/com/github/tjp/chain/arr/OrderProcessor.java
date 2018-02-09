@@ -1,4 +1,8 @@
-package com.github.tjp.chain;
+package com.github.tjp.chain.arr;
+
+import com.github.tjp.chain.dto.OrderContext;
+import com.github.tjp.chain.dto.OrderRequest;
+import com.github.tjp.chain.dto.OrderResponse;
 
 /**
  * 订单处理链上的节点定义
@@ -15,5 +19,5 @@ public interface OrderProcessor<REQ extends OrderRequest, RESP extends OrderResp
      * @param orderContext 订单节点处理的上下文
      * @param chain        调用链(传入节点,看是否流程需要向后进行)
      */
-    void doProcess(OrderProcessorContext<REQ, RESP> orderContext, OrderProcessorChain chain);
+    void doProcessor(OrderContext<REQ, RESP> orderContext, OrderProcessorChain chain);
 }

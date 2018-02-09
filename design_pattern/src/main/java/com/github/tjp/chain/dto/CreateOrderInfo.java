@@ -1,4 +1,4 @@
-package com.github.tjp.chain.biz;
+package com.github.tjp.chain.dto;
 
 import java.io.Serializable;
 import java.util.List;

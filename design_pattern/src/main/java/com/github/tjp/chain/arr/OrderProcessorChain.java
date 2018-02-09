@@ -1,4 +1,6 @@
-package com.github.tjp.chain;
+package com.github.tjp.chain.arr;
+
+import com.github.tjp.chain.dto.OrderContext;
 
 /**
  * 订单流程处理链
@@ -12,9 +14,9 @@ public interface OrderProcessorChain {
     /**
      * 调用处理链的下一个
      *
-     * @param orderProcessorContext
+     * @param orderContext
      */
-    void doProcess(OrderProcessorContext orderProcessorContext);
+    void doProcessor(OrderContext orderContext);
 
     /**
      * 向订单调用链里添加处理节点

@@ -1,7 +1,7 @@
-package com.github.tjp.chain;
+package com.github.tjp.chain.dto;
 
 /**
- * 订单上下文中响应对象的接口抽象
+ * 订单响应对象的接口抽象
  *
  * @author tujinpeng
  * @version V1.0

@@ -1,4 +1,4 @@
-package com.github.tjp.chain;
+package com.github.tjp.chain.dto;
 
 /**
  * 订单处理链上传递的上下文
@@ -7,7 +7,7 @@ package com.github.tjp.chain;
  * @version V1.0
  * @date 2018/2/8 下午7:54
  */
-public class OrderProcessorContext<REQ extends OrderRequest, RESP extends OrderResponse> {
+public class OrderContext<REQ extends OrderRequest, RESP extends OrderResponse> {
 
     /**
      * 下单请求对象

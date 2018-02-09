@@ -1,6 +1,4 @@
-package com.github.tjp.chain.biz;
-
-import com.github.tjp.chain.OrderRequest;
+package com.github.tjp.chain.dto;
 
 /**
  * 创建订单请求对象

@@ -13,6 +13,7 @@
         <module>my_study</module>
         <module>design_pattern</module>
         <module>my_practice</module>
+        <module>tjp_common</module>
     </modules>
 
     <dependencies>

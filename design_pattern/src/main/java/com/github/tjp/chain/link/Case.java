@@ -46,6 +46,10 @@ public class Case {
         };
         if (orderProcessors.size() > 0) {
             for (int i = orderProcessors.size() - 1; i >= 0; i--) {
+                /**
+                 * 匿名内部类中访问局部变量,为什么要申明final? :
+                 *    实际上java是把局部变量作为参数给了内部类的构造函数,而将其作为成员变量封装在类中的
+                 */
                 final OrderProcessor processor = orderProcessors.get(i);
                 final OrderInvoker next = last;
                 //匿名类
@@ -59,5 +63,9 @@ public class Case {
             }
         }
         return last;
+    }
+
+    private static class MyInvoker {
+
     }
 }

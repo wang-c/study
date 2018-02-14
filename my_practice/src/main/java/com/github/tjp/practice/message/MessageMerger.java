@@ -1,10 +1,13 @@
 package com.github.tjp.practice.message;
 
-import com.github.tjp.common.CollectionUtils;
+import com.github.tjp.common.threadPool.NamedThreadFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -35,15 +38,30 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class MessageMerger implements Merger {
 
+    private static final Logger logger = LoggerFactory.getLogger(MessageMerger.class);
+
     /*
      * -多个线程会并发的初始化的商品变价set,所以要用ConcurrentHashMap
      * -AtomicReference 对象引用的原子更新
      * -LinkedHashSet 对消息的日期做去重,按插入顺序排序
      */
-    private final ConcurrentHashMap<Long, AtomicReference<Set>> mergeMap;
+    private final ConcurrentHashMap<Long, AtomicReference<MergeMessage>> mergeMap;
+
+    private static final int SEND_INTERVAL = 5000;//ms
+
+    private final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1, new NamedThreadFactory("message-sender", true));
+
 
     public MessageMerger() {
         mergeMap = new ConcurrentHashMap<>();
+
+        //启动定时任务,定时发送合并的消息
+        scheduledExecutorService.scheduleWithFixedDelay(new Runnable() {
+            @Override
+            public void run() {
+                send();
+            }
+        }, SEND_INTERVAL, SEND_INTERVAL, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -56,85 +74,140 @@ public class MessageMerger implements Merger {
         String date = message.getDate();
 
         //初始化引用原子变量
-        AtomicReference<Set> reference = mergeMap.get(goodsId);
+        AtomicReference<MergeMessage> reference = mergeMap.get(goodsId);
         if (reference == null) {
-            reference = new AtomicReference<Set>();
-            reference.set(new LinkedHashSet<>());
+            /*
+             * 注意这里初始化reference不能这样写,reference相当于一个共享变量,这里存在对共享变量修改,会有线程不安全的问题
+             * 要保证只有对共享变量的访问,没有修改?
+             */
+            //reference = new AtomicReference<Set>();
             /*
              * 这里存在多个线程put的情况,concurrentHashMap当put时,同一个key多个线程竞争时是要加【分段锁】的
              * 只有一个线程put成功,后续其他线程执行putIfAbsent,会看见第一个put的初始化值,直接返回,不做赋值操作
              * so这里一定要用putIfAbsent,不然会产生后续写线程将同一个key,value覆盖的问题
              */
-            mergeMap.putIfAbsent(goodsId, reference);
+            //putIfAbsent分段锁保证只有一个线程初始化reference成功
+            mergeMap.putIfAbsent(goodsId, new AtomicReference<MergeMessage>());
+            //立马get,通过volatile保证,其他线程立马可见reference
+            reference = mergeMap.get(goodsId);
         }
 
         //compareAndSet进行原子更新dateSet
-        Set<String> current = null;
+        MergeMessage current = null;
         //创建新的要更新的对象 某个商品的消息日期合并时间上是从【一个对象】转移成【另外一个对象】,通过引用的原子类AtomicReference,保证对象原子更新
-        Set<String> update = new LinkedHashSet<>();
+        MergeMessage update = null;
         do {
             current = reference.get();
             if (current == null) {
-                update = new LinkedHashSet<>();
-                update.add(date);
+                update = new MergeMessage(goodsId, date, date);
             } else {
-                /*
-                 * 这里对新对象update赋值的时候,要先清空:
-                 * 防止并发要自旋的时候, 调用addAll添加了脏数据
-                 */
-                update.clear();
-                update.add(date);
-                update.addAll(current);//【update】=【current】+【当前变价日期date】
+                //暴力算法取最小最大日期
+                String min = current.getStartTime();
+                String max = current.getEndTime();
+                if (date.compareTo(min) < 0) {
+                    min = date;
+                }
+                if (date.compareTo(max) > 0) {
+                    max = date;
+                }
+                update = new MergeMessage(goodsId, min, max);
             }
-        } while (!reference.compareAndSet(current, update));//旧对象---》新对象=旧对象+新的变价日期
-
-        if (reference.get().contains(date)) {
-            System.out.println("current : " + current + " , update : " + update);
-        }
-
+        } while (!reference.compareAndSet(current, update));//旧对象---》新对象
     }
 
     @Override
     public void send() {
+        logger.info("==> execute interval send ");
 
         //定时发送合并消息,遍历map中所有entry
-        for (ConcurrentHashMap.Entry<Long, AtomicReference<Set>> entry : mergeMap.entrySet()) {
+        for (ConcurrentHashMap.Entry<Long, AtomicReference<MergeMessage>> entry : mergeMap.entrySet()) {
             Long goodsId = entry.getKey();
-            AtomicReference<Set> reference = entry.getValue();
-            Set<String> oldDateSet = reference.get();
-            if (CollectionUtils.isEmpty(oldDateSet)) {
-                //无合并的消息列表,下一个
+            AtomicReference<MergeMessage> reference = entry.getValue();
+            MergeMessage mergeMessage = reference.get();
+
+            if (mergeMessage == null) {//没有变价信息
                 continue;
             }
 
-            //发送合并后的消息
-            sendMergeMessage(goodsId, oldDateSet);
-
-            //减掉发送过的日期集合
-            Set<String> current = null;
-            Set<String> update = new LinkedHashSet<>();
+            //CAS找出可以发送合并消息的message
+            MergeMessage current = null;
+            MergeMessage update = null;
             do {
+                //要发送的商品合并消息
                 current = reference.get();
-                if (current == null) {
-                    update = new LinkedHashSet<>();
-                } else {
-                    //移除已经发送完毕的日期set
-                    update.clear();
-                    update.addAll(current);
-                    update.removeAll(oldDateSet);
-                }
+                //从null开始,重新开始合并消息
+                update = null;
+            } while (!reference.compareAndSet(current, update));//旧对象---》新对象=null
 
-            } while (!reference.compareAndSet(current, update));//旧对象---》新对象=旧对象-已经发送的日期集合
+            //发送合并后的消息
+            sendMergeMessage(current);
 
+            //调试用
+//            logger.info("==> current : " + current + " , update : " + update);
         }
     }
 
     //发送消息合并的服务
-    public void sendMergeMessage(Long goodsId, Set dateSet) {
+    public void sendMergeMessage(MergeMessage mergeMessage) {
         //send mergeMessage
+        logger.info("==> send merge message  : " + mergeMessage);
+
     }
 
-    public ConcurrentHashMap<Long, AtomicReference<Set>> getMergeMap() {
+    /**
+     * 当商品按天发消息合并时,要合并成一个时间段日期对象(对象尽可能小):
+     * <p/>
+     * 暴力算法:
+     * 保留最小,最大日期
+     */
+    protected static class MergeMessage {
+        private Long goodsId;
+
+        private String startTime;
+
+        private String endTime;
+
+        public MergeMessage(Long goodsId, String startTime, String endTime) {
+            this.goodsId = goodsId;
+            this.startTime = startTime;
+            this.endTime = endTime;
+        }
+
+        public Long getGoodsId() {
+            return goodsId;
+        }
+
+        public void setGoodsId(Long goodsId) {
+            this.goodsId = goodsId;
+        }
+
+        public String getStartTime() {
+            return startTime;
+        }
+
+        public void setStartTime(String startTime) {
+            this.startTime = startTime;
+        }
+
+        public String getEndTime() {
+            return endTime;
+        }
+
+        public void setEndTime(String endTime) {
+            this.endTime = endTime;
+        }
+
+        @Override
+        public String toString() {
+            return "MergeMessage" + super.hashCode() + "{" +
+                    "goodsId=" + goodsId +
+                    ", startTime='" + startTime + '\'' +
+                    ", endTime='" + endTime + '\'' +
+                    '}';
+        }
+    }
+
+    public ConcurrentHashMap<Long, AtomicReference<MergeMessage>> getMergeMap() {
         return mergeMap;
     }
 }

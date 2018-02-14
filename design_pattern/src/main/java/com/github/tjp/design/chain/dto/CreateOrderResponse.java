@@ -1,6 +1,4 @@
-package com.github.tjp.chain.dto;
-
-import com.github.tjp.chain.dto.OrderResponse;
+package com.github.tjp.design.chain.dto;
 
 /**
  * 创建订单响应对象

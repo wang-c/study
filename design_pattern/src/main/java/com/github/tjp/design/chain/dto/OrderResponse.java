@@ -1,4 +1,4 @@
-package com.github.tjp.chain.dto;
+package com.github.tjp.design.chain.dto;
 
 /**
  * 订单响应对象的接口抽象

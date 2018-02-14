@@ -10,10 +10,11 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>my_study</module>
+        <module>jdk_study</module>
         <module>design_pattern</module>
         <module>my_practice</module>
         <module>tjp_common</module>
+        <module>structure_algorithm</module>
     </modules>
 
     <dependencies>

@@ -1,8 +1,8 @@
-package com.github.tjp.chain.link;
+package com.github.tjp.design.chain.link;
 
-import com.github.tjp.chain.dto.OrderContext;
-import com.github.tjp.chain.dto.OrderRequest;
-import com.github.tjp.chain.dto.OrderResponse;
+import com.github.tjp.design.chain.dto.OrderContext;
+import com.github.tjp.design.chain.dto.OrderRequest;
+import com.github.tjp.design.chain.dto.OrderResponse;
 
 /**
  * 订单处理链上的每一个节点抽象

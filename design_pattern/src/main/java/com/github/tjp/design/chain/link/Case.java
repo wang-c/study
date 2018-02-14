@@ -1,8 +1,8 @@
-package com.github.tjp.chain.link;
+package com.github.tjp.design.chain.link;
 
-import com.github.tjp.chain.dto.OrderContext;
-import com.github.tjp.chain.dto.CreateOrderRequest;
-import com.github.tjp.chain.dto.CreateOrderResponse;
+import com.github.tjp.design.chain.dto.OrderContext;
+import com.github.tjp.design.chain.dto.CreateOrderRequest;
+import com.github.tjp.design.chain.dto.CreateOrderResponse;
 
 import java.util.ArrayList;
 import java.util.List;

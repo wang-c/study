@@ -1,4 +1,4 @@
-package com.github.tjp.chain.dto;
+package com.github.tjp.design.chain.dto;
 
 /**
  * 订单处理链上传递的上下文

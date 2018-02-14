@@ -1,6 +1,6 @@
-package com.github.tjp.chain.arr;
+package com.github.tjp.design.chain.arr;
 
-import com.github.tjp.chain.dto.OrderContext;
+import com.github.tjp.design.chain.dto.OrderContext;
 
 import java.util.ArrayList;
 import java.util.Iterator;

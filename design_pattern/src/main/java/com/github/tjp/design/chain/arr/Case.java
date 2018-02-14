@@ -1,8 +1,8 @@
-package com.github.tjp.chain.arr;
+package com.github.tjp.design.chain.arr;
 
-import com.github.tjp.chain.dto.CreateOrderRequest;
-import com.github.tjp.chain.dto.CreateOrderResponse;
-import com.github.tjp.chain.dto.OrderContext;
+import com.github.tjp.design.chain.dto.CreateOrderRequest;
+import com.github.tjp.design.chain.dto.CreateOrderResponse;
+import com.github.tjp.design.chain.dto.OrderContext;
 
 /**
  * 下单服务的责任链产生:

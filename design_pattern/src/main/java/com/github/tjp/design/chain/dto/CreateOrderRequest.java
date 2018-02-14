@@ -1,4 +1,4 @@
-package com.github.tjp.chain.dto;
+package com.github.tjp.design.chain.dto;
 
 /**
  * 创建订单请求对象

@@ -8,7 +8,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>my_study</artifactId>
+    <artifactId>jdk_study</artifactId>
 
     <properties>
         <spring.version>3.2.1.RELEASE</spring.version>

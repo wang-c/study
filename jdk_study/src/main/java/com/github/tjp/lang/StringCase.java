@@ -1,9 +1,14 @@
 package com.github.tjp.lang;
 
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by TJP on 2017/10/21.
  */
-public class StringStudy {
+public class StringCase {
 
     private static String PERFIX = "PRODUCT_";
 
@@ -73,6 +78,22 @@ public class StringStudy {
             }, "synchronized-string-thread" + i);
             t.start();
         }
+    }
+
+    /**
+     * 字符串常量1.7之前放在永久代里
+     * jdk1.7之后,放到堆中去了
+     * <p/>
+     * 当一个字符串不再被使用的时候会被垃圾回收机制给回收掉吗？:
+     * 当这个字符串外界没有强引用的时候,就能被Minor gc回收掉
+     */
+    @Test
+    public void stringPoolTest() {
+        //模拟不停地往字符串常量池中放数据 造成内存溢出
+        //-vm option -Xms20M -Xmx20M -XX:+PrintGCDetails
+        List<String> list = new ArrayList<String>();
+        int i = 0;
+        while (true) list.add(String.valueOf(i++).intern());
     }
 
     private static void addUnSafe(Long productId) {

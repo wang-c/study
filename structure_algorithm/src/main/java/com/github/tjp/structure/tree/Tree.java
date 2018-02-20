@@ -87,4 +87,23 @@ public interface Tree<T extends Comparable> {
      * @return
      */
     T last();
+
+    /**
+     * 按层遍历
+     */
+    void levelOrder();
+
+    /**
+     * 求最小深度
+     *
+     * @return
+     */
+    int minDepth();
+
+    /**
+     * 最大深度
+     *
+     * @return
+     */
+    int maxDepth();
 }

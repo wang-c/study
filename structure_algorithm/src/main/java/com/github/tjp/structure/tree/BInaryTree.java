@@ -1,8 +1,6 @@
 package com.github.tjp.structure.tree;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 import java.util.jar.Pack200;
 
 /**
@@ -385,5 +383,98 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
             curr = curr.right;
         }
         return curr.value;
+    }
+
+    @Override
+    public void levelOrder() {
+        if (root == null) {
+            return;
+        }
+        //用队列存储每层遍历的节点集合
+        Queue<BinaryNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        //按层遍历
+        while (!queue.isEmpty()) {
+            int length = queue.size();
+            //遍历一层上的所有节点
+            for (int i = 0; i < length; i++) {
+                BinaryNode node = queue.poll();
+                System.out.print(node.value + " ");
+                //同时向队列中按顺序放入下一层需要遍历的节点
+                if (node.left != null) {
+                    queue.add(node.left);
+                }
+                if (node.right != null) {
+                    queue.add(node.right);
+                }
+            }
+            System.out.println();//下一层
+        }
+    }
+
+    @Override
+    public int minDepth() {
+        if (root == null) {
+            return 0;
+        }
+        int level = 0;
+        //用队列存储每层遍历的节点集合
+        Queue<BinaryNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        //按层遍历
+        while (!queue.isEmpty()) {
+            //下一层有节点,则level++
+            level++;
+            int length = queue.size();
+            //遍历一层上的所有节点
+            for (int i = 0; i < length; i++) {
+                BinaryNode node = queue.poll();
+                //有一个节点没有左右孩子,代表到达了最小深度,直接返回
+                if (node.left == null && node.right == null) {
+                    return level;
+                }
+                //同时向队列中按顺序放入下一层需要遍历的节点
+                if (node.left != null) {
+                    queue.add(node.left);
+                }
+                if (node.right != null) {
+                    queue.add(node.right);
+                }
+            }
+        }
+        return level;
+    }
+
+    //求最大深度,用按层遍历的思想,遍历到最后一层 统计层数即为最大深度
+    @Override
+    public int maxDepth() {
+        if (root == null) {
+            return 0;
+        }
+        int level = 0;
+        //用队列存储每层遍历的节点集合
+        Queue<BinaryNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        //按层遍历
+        while (!queue.isEmpty()) {
+            //下一层有节点,则level++
+            level++;
+            int length = queue.size();
+            //遍历一层上的所有节点
+            for (int i = 0; i < length; i++) {
+                BinaryNode node = queue.poll();
+                //同时向队列中按顺序放入下一层需要遍历的节点
+                if (node.left != null) {
+                    queue.add(node.left);
+                }
+                if (node.right != null) {
+                    queue.add(node.right);
+                }
+            }
+        }
+        return level;
     }
 }

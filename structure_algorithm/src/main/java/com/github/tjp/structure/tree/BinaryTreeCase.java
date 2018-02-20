@@ -19,6 +19,22 @@ public class BinaryTreeCase {
         tree.insert(40);
         tree.insert(21);
         tree.insert(50);
+        tree.insert(100);
+
+        //按层遍历节点
+        System.out.println("按层遍历节点：");
+        tree.levelOrder();
+        System.out.println("---------------------");
+
+        //最大深度
+        System.out.println("最大深度：");
+        System.out.println(tree.maxDepth());
+        System.out.println("---------------------");
+
+        //最小深度
+        System.out.println("最小深度：");
+        System.out.println(tree.minDepth());
+        System.out.println("---------------------");
 
         //先序遍历
         System.out.println("先序遍历（非递归）：");
@@ -90,7 +106,6 @@ public class BinaryTreeCase {
         }
         System.out.println();
         System.out.println("---------------------");
-
 
     }
 }

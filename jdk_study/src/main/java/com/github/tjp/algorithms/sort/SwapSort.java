@@ -114,9 +114,9 @@ public class SwapSort {
         quickSort(arr, 0, arr.length - 1);
         System.out.println("qsort time : " + (System.currentTimeMillis() - start));
 //        bubbleSort(arr);
-//        for (Integer e : arr) {
-//            System.out.println(e);
-//        }
+        for (Integer e : arr) {
+            System.out.println(e);
+        }
 
     }
 

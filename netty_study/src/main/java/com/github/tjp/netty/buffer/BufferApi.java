@@ -1,4 +1,4 @@
-package com.github.tjp.socket.netty.buffer;
+package com.github.tjp.netty.buffer;
 
 import java.nio.ByteBuffer;
 

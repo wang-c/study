@@ -1,4 +1,4 @@
-package com.github.tjp.socket.netty.channel;
+package com.github.tjp.netty.channel;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

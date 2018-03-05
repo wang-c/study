@@ -15,6 +15,7 @@
         <module>my_practice</module>
         <module>tjp_common</module>
         <module>structure_algorithm</module>
+        <module>netty_study</module>
     </modules>
 
     <dependencies>

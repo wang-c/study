@@ -54,6 +54,7 @@ package com.github.tjp.lang;
  * (1)自定义的枚举类持有【所有枚举的静态final实例】,以及一个【静态final的枚举数组】
  * 每个枚举实例因为继承Enum,有两个成员变量name【名称】,oridinal【排序号】
  * (2)通过静态代码块初始化这些枚举实例和枚举数组EnumCase[],保证一个【线程安全】 =====》线程安全初始化特点可以用在【线程安全的单例模式上】
+ * (3)枚举类申明成final,不能写抽象方法,方法也不能被重写
  *
  * 常用方法分析:
  *    EnumCase.small.name():调用枚举的name方法,因为枚举类继承Enum类,持有了父类两个默认属性name以及ordinal(排序号)
@@ -69,5 +70,5 @@ package com.github.tjp.lang;
 public enum EnumCase {
     SMALL,
     NORMAL,
-    HUGE
+    HUGE;
 }

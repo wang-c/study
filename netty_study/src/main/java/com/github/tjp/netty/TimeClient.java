@@ -1,4 +1,4 @@
-package com.github.tjp.socket.netty;
+package com.github.tjp.netty;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
